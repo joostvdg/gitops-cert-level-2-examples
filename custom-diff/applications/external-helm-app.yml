@@ -21,4 +21,18 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true  
-   
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: helm-example02
+      namespace: example02
+      jqPathExpressions:
+        - .metadata.annotations[] | select(.name == "creation")
+
+    - group: '*'
+      kind: Secret
+      name: example-secret
+      namespace: example02
+      jsonPointers:
+        - /data/my-password
